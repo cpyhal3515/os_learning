@@ -1,0 +1,323 @@
+systemd-+-systemd-journal
+        |-systemd-udevd
+        |-vmware-vmblock----3*[{vmware-vmblock-}]
+        |-vmtoolsd---{gmain}
+        |-systemd-timesyn---{sd-resolve}
+        |-VGAuthService
+        |-accounts-daemon-+-{gmain}
+        |                 `-{gdbus}
+        |-bluetoothd
+        |-cron
+        |-dbus-daemon
+        |-NetworkManager-+-{gmain}
+        |                |-{gdbus}
+        |                |-dnsmasq
+        |                `-dhclient
+        |-systemd-logind
+        |-rsyslogd-+-{in:imuxsock}
+        |          |-{in:imklog}
+        |          `-{rs:main Q:Reg}
+        |-acpid
+        |-avahi-daemon---avahi-daemon
+        |-irqbalance
+        |-polkitd-+-{gmain}
+        |         `-{gdbus}
+        |-agetty
+        |-lightdm-+-{gmain}
+        |         |-{gdbus}
+        |         |-Xorg---{InputThread}
+        |         `-lightdm-+-{gmain}
+        |                   |-{gdbus}
+        |                   `-upstart-+-upstart-udev-br
+        |                             |-3*[dbus-daemon]
+        |                             |-window-stack-br
+        |                             |-2*[upstart-dbus-br]
+        |                             |-fcitx---{fcitx}
+        |                             |-upstart-file-br
+        |                             |-fcitx-dbus-watc
+        |                             |-bamfdaemon-+-{dconf worker}
+        |                             |            |-{gmain}
+        |                             |            `-{gdbus}
+        |                             |-gvfsd-+-{gmain}
+        |                             |       `-{gdbus}
+        |                             |-gvfsd-fuse-+-2*[{gvfsd-fuse}]
+        |                             |            |-{gmain}
+        |                             |            |-{gdbus}
+        |                             |            `-{gvfs-fuse-sub}
+        |                             |-notify-osd-+-{dconf worker}
+        |                             |            |-{gmain}
+        |                             |            `-{gdbus}
+        |                             |-gpg-agent
+        |                             |-hud-service-+-{dconf worker}
+        |                             |             |-{gmain}
+        |                             |             `-{gdbus}
+        |                             |-unity-settings--+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-at-spi-bus-laun-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-dbus-daemon
+        |                             |-gnome-session-b-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 |-{dconf worker}
+        |                             |                 |-nautilus-+-{gmain}
+        |                             |                 |          |-{gdbus}
+        |                             |                 |          |-{dconf worker}
+        |                             |                 |          `-3*[{pool}]
+        |                             |                 |-nm-applet-+-{dconf worker}
+        |                             |                 |           |-{gmain}
+        |                             |                 |           `-{gdbus}
+        |                             |                 |-gnome-software-+-{gmain}
+        |                             |                 |                |-{gdbus}
+        |                             |                 |                `-{dconf worker}
+        |                             |                 |-unity-fallback--+-{dconf worker}
+        |                             |                 |                 |-{gmain}
+        |                             |                 |                 `-{gdbus}
+        |                             |                 |-polkit-gnome-au-+-{dconf worker}
+        |                             |                 |                 |-{gmain}
+        |                             |                 |                 `-{gdbus}
+        |                             |                 |-zeitgeist-datah-+-{gmain}
+        |                             |                 |                 |-{gdbus}
+        |                             |                 |                 `-2*[{pool}]
+        |                             |                 |-update-notifier-+-{dconf worker}
+        |                             |                 |                 |-{gmain}
+        |                             |                 |                 `-{gdbus}
+        |                             |                 `-deja-dup-monito-+-{dconf worker}
+        |                             |                                   |-{gmain}
+        |                             |                                   `-{gdbus}
+        |                             |-unity-panel-ser-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-at-spi2-registr-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-2*[dconf-service-+-{gmain}]
+        |                             |                  `-{gdbus}]
+        |                             |-indicator-messa-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-{dconf worker}
+        |                             |-indicator-bluet-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-{dconf worker}
+        |                             |-indicator-power-+-{gmain}
+        |                             |                 |-{dconf worker}
+        |                             |                 `-{gdbus}
+        |                             |-indicator-datet-+-{gmain}
+        |                             |                 |-{dconf worker}
+        |                             |                 |-{pool}
+        |                             |                 |-{gdbus}
+        |                             |                 `-{indicator-datet}
+        |                             |-indicator-keybo-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-indicator-sound-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-{dconf worker}
+        |                             |-indicator-print-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-indicator-sessi-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-indicator-appli-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-evolution-sourc-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-pulseaudio-+-{alsa-sink-ES137}
+        |                             |            |-{alsa-source-ES1}
+        |                             |            `-{snapd-glib}
+        |                             |-compiz-+-{gmain}
+        |                             |        |-{dconf worker}
+        |                             |        |-{gdbus}
+        |                             |        `-2*[{pool}]
+        |                             |-evolution-calen-+-{gmain}
+        |                             |                 |-{dconf worker}
+        |                             |                 |-{evolution-calen}
+        |                             |                 |-{gdbus}
+        |                             |                 |-evolution-calen-+-{dconf worker}
+        |                             |                 |                 |-{evolution-calen}
+        |                             |                 |                 |-{gmain}
+        |                             |                 |                 `-{gdbus}
+        |                             |                 `-evolution-calen-+-{dconf worker}
+        |                             |                                   |-2*[{evolution-calen}]
+        |                             |                                   |-{gmain}
+        |                             |                                   |-{gdbus}
+        |                             |                                   `-{pool}
+        |                             |-vmtoolsd-+-{dconf worker}
+        |                             |          |-{gmain}
+        |                             |          `-{gdbus}
+        |                             |-gvfs-udisks2-vo-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-gvfs-goa-volume-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-gvfs-afc-volume-+-{gvfs-afc-volume}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-gvfs-gphoto2-vo-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-evolution-addre-+-{gmain}
+        |                             |                 |-{dconf worker}
+        |                             |                 |-{evolution-addre}
+        |                             |                 |-{gdbus}
+        |                             |                 `-evolution-addre-+-{gmain}
+        |                             |                                   |-{gdbus}
+        |                             |                                   |-{dconf worker}
+        |                             |                                   `-{evolution-addre}
+        |                             |-gvfs-mtp-volume-+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-gvfsd-trash-+-{gmain}
+        |                             |             `-{gdbus}
+        |                             |-gvfsd-metadata-+-{gmain}
+        |                             |                `-{gdbus}
+        |                             |-fcitx-qimpanel-+-{QXcbEventReader}
+        |                             |                |-{dconf worker}
+        |                             |                |-{gmain}
+        |                             |                |-{gdbus}
+        |                             |                `-{QQmlThread}
+        |                             |-sh---zeitgeist-daemo-+-{gmain}
+        |                             |                      `-{gdbus}
+        |                             |-zeitgeist-fts-+-{gmain}
+        |                             |               `-{gdbus}
+        |                             |-deja-dup-+-{dconf worker}
+        |                             |          |-{gmain}
+        |                             |          `-{gdbus}
+        |                             |-gvfsd-network-+-{gmain}
+        |                             |               |-{gdbus}
+        |                             |               `-{dconf worker}
+        |                             |-gvfsd-dnssd-+-{gmain}
+        |                             |             `-{gdbus}
+        |                             |-dbus-launch
+        |                             |-unity-scope-hom-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-unity-scope-loa-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-unity-files-dae-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 |-{dconf worker}
+        |                             |                 `-2*[{pool}]
+        |                             |-update-manager-+-{dconf worker}
+        |                             |                |-{gmain}
+        |                             |                `-{gdbus}
+        |                             |-sd_cicero-+-sd_cicero
+        |                             |           |-{sd_cicero}
+        |                             |           `-{threaded-ml}
+        |                             |-sd_generic-+-{sd_generic}
+        |                             |            `-{threaded-ml}
+        |                             |-sd_dummy-+-{sd_dummy}
+        |                             |          `-{threaded-ml}
+        |                             |-sd_espeak-+-3*[{sd_espeak}]
+        |                             |           `-{threaded-ml}
+        |                             |-speech-dispatch---{speech-dispatch}
+        |                             |-4*[ssh-agent]
+        |                             |-code-+-{sandbox_ipc_thr}
+        |                             |      |-code---code-+-{Thread<00>}
+        |                             |      |             |-{Thread<01>}
+        |                             |      |             |-{code}
+        |                             |      |             |-{ThreadPoolServi}
+        |                             |      |             |-{ThreadPoolForeg}
+        |                             |      |             |-{Chrome_ChildIOT}
+        |                             |      |             `-{VizCompositorTh}
+        |                             |      |-code---code
+        |                             |      |-12*[{code}]
+        |                             |      |-{ThreadPoolServi}
+        |                             |      |-{Chrome_IOThread}
+        |                             |      |-{MemoryInfra}
+        |                             |      |-{dconf worker}
+        |                             |      |-{gmain}
+        |                             |      |-{gdbus}
+        |                             |      |-3*[{ThreadPoolSingl}]
+        |                             |      |-{Bluez D-Bus thr}
+        |                             |      |-{CrShutdownDetec}
+        |                             |      |-{inotify_reader}
+        |                             |      |-{CompositorTileW}
+        |                             |      |-{VideoCaptureThr}
+        |                             |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |-{Chrome_ChildIOT}
+        |                             |      |      |-{inotify_reader}
+        |                             |      |      `-{ThreadPoolForeg}
+        |                             |      |-{CacheThread_Blo}
+        |                             |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |-{Chrome_ChildIOT}
+        |                             |      |      |-{GpuMemoryThread}
+        |                             |      |      |-{Compositor}
+        |                             |      |      |-{ThreadPoolSingl}
+        |                             |      |      |-2*[{CompositorTileW}]
+        |                             |      |      |-{code}
+        |                             |      |      |-{WebCrypto}
+        |                             |      |      |-{MemoryInfra}
+        |                             |      |      |-2*[{DedicatedWorker}]
+        |                             |      |      `-3*[{ThreadPoolForeg}]
+        |                             |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |-{Chrome_ChildIOT}
+        |                             |      |      |-{GpuMemoryThread}
+        |                             |      |      |-{Compositor}
+        |                             |      |      |-{ThreadPoolSingl}
+        |                             |      |      |-2*[{CompositorTileW}]
+        |                             |      |      |-5*[{code}]
+        |                             |      |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |      |-{ThreadPoolForeg}
+        |                             |      |      |      |-10*[{code}]
+        |                             |      |      |      `-bash---pstree
+        |                             |      |      |-2*[{DedicatedWorker}]
+        |                             |      |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |      |-{ThreadPoolForeg}
+        |                             |      |      |      `-11*[{code}]
+        |                             |      |      `-3*[{ThreadPoolForeg}]
+        |                             |      |-code-+-{ThreadPoolServi}
+        |                             |      |      |-{ThreadPoolForeg}
+        |                             |      |      |-10*[{code}]
+        |                             |      |      |-cpptools---11*[{cpptools}]
+        |                             |      |      `-code-+-{ThreadPoolServi}
+        |                             |      |             |-{ThreadPoolForeg}
+        |                             |      |             `-5*[{code}]
+        |                             |      `-{ThreadPoolForeg}
+        |                             |-chrome_crashpad---2*[{chrome_crashpad}]
+        |                             |-xdg-desktop-por-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-{dconf worker}
+        |                             |-xdg-document-po-+-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-3*[{fuse mainloop}]
+        |                             |-xdg-permission--+-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-xdg-desktop-por-+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 `-{gdbus}
+        |                             |-gnome-terminal--+-{dconf worker}
+        |                             |                 |-{gmain}
+        |                             |                 |-{gdbus}
+        |                             |                 `-bash
+        |                             |-gvfsd-http-+-{gmain}
+        |                             |            `-{gdbus}
+        |                             |-gedit-+-{gmain}
+        |                             |       |-{gdbus}
+        |                             |       `-{dconf worker}
+        |                             `-cpptools-srv---9*[{cpptools-srv}]
+        |-unattended-upgr---{gmain}
+        |-rtkit-daemon---2*[{rtkit-daemon}]
+        |-upowerd-+-{gmain}
+        |         `-{gdbus}
+        |-colord-+-{gmain}
+        |        `-{gdbus}
+        |-whoopsie-+-{gmain}
+        |          `-{gdbus}
+        |-systemd---(sd-pam)
+        |-gnome-keyring-d-+-{gmain}
+        |                 |-{timer}
+        |                 `-{gdbus}
+        |-udisksd-+-{gmain}
+        |         |-{gdbus}
+        |         |-{probing-thread}
+        |         `-{cleanup}
+        |-fwupd-+-{gmain}
+        |       |-{fwupd}
+        |       |-{GUsbEventThread}
+        |       `-{gdbus}
+        |-sshd
+        |-cupsd---dbus
+        |-cups-browsed-+-{gmain}
+        |              `-{gdbus}
+        `-systemd-network
