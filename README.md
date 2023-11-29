@@ -16,6 +16,7 @@
 * 2023年11月17日：看完了 1 和 2 部分，现在开始做一下 M1 的 pstree 作业, 
 M1: 打印进程树 (pstree)。
 * 2023年11月22日：完成了打印进程树的作业。
+* 2023年11月29日：完成了协程的作业。
 
 
 ## 工具说明
@@ -33,4 +34,5 @@ M1: 打印进程树 (pstree)。
 
 ### 2、gdb 调试工具
 * [如何调试命令行中带参数的程序](https://stackoverflow.com/questions/6121094/how-do-i-run-a-program-with-commandline-arguments-using-gdb-within-a-bash-script)
+* [如何生成 core 文件](https://askubuntu.com/questions/1349047/where-do-i-find-core-dump-files-and-how-do-i-view-and-analyze-the-backtrace-st/1349048)
 
