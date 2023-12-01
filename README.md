@@ -36,3 +36,9 @@ M1: 打印进程树 (pstree)。
 * [如何调试命令行中带参数的程序](https://stackoverflow.com/questions/6121094/how-do-i-run-a-program-with-commandline-arguments-using-gdb-within-a-bash-script)
 * [如何生成 core 文件](https://askubuntu.com/questions/1349047/where-do-i-find-core-dump-files-and-how-do-i-view-and-analyze-the-backtrace-st/1349048)
 
+### 3、objdump 实现反汇编
+* [Objdump Command in Linux with Examples](https://www.geeksforgeeks.org/objdump-command-in-linux-with-examples/)
+
+### 4、strace 检测系统调用
+* [Strace command in Linux with Examples](https://www.geeksforgeeks.org/strace-command-in-linux-with-examples/)
+
