@@ -474,5 +474,107 @@ void *consumer(void *arg)
     ```
 * 解决方法也非常直接，不知道唤醒哪个就全唤醒，使用 `Pthread_cond_broadcast()` 替换 `Pthread_cond_signal()`，所有被唤醒的线程都会自己检查条件，不满足的会自己去休眠，这种条件变量叫做覆盖条件，但是这种方法因为唤醒的线程太多，所以非必要不用。
 ## 信号量
+### 二值信号量（锁）
+* 可以使用信号量来实现锁：
+    ```c
+    sem_t m;
+    sem_init(&m, 0, 1);
 
+    sem_wait(&m);
+    // 临界区
+    sem_post(&m);
+    ```
+### 信号量用作条件变量
+* 可以使用信号量实现一个线程暂停执行，等待某一条件成立的场景：
+    ```c
+    sem_t s;
 
+    void *child(void *arg) 
+    {
+        printf("child\n");
+        sem_post(&s); // 这里的信号量表示 child 线程被完成
+        return NULL;
+    }
+
+    int main(int argc, char *argv[]) 
+    {
+        sem_init(&s, 0, 0);
+        printf("parent: begin\n");
+        pthread_t c;
+        Pthread_create(&c, NULL, child, NULL);
+        sem_wait(&s); // 在这里等待 child 完成
+        printf("parent: end\n");
+        return 0;
+    }
+    ```
+### 信号量解决生产者/消费者问题
+
+* 下面这段代码可以正确的解决生产者/消费者问题，需要注意的是，有两种另外的写法是不正确的。
+* ERR1：生产者与消费者均不加锁，即都没有带有 `mutex` 的代码。这样当有多个生产者的时候，可能多个生产者通过 `sem_wait(&empty)` 这条代码，并重复修改 `i` 处的值（`put(i)` 这段代码就位于临界区了）。
+* ERR2：交换锁与 `empty` 以及 `full` 之间的位置，这样可能带来死锁的问题，比如一个消费者先运行，它拿到锁但是因为没有 `full` 信号，因此休眠了，这样生产者再去运行会因为拿不到锁而无法继续，进而导致程序卡死。
+```c
+void *producer(void *arg) 
+{
+    int i;
+    for (i = 0; i < loops; i++) 
+    {
+        sem_wait(&empty);
+        sem_wait(&mutex);
+        put(i); 
+        sem_post(&mutex);
+        sem_post(&full); 
+    }
+}
+
+void *consumer(void *arg) 
+{
+    int i;
+    for (i = 0; i < loops; i++) 
+    {
+        sem_wait(&full); 
+        sem_wait(&mutex);
+        int tmp = get(); 
+        sem_post(&mutex);
+        sem_post(&empty);
+        printf("%d\n", tmp);
+    }
+}
+```
+
+### 信号量的实现
+* 使用条件变量外加锁就可以实现信号量，同时可以通过一个 `value` 的值来计数信号量的值。
+```c
+typedef struct __Zem_t 
+{
+    int value;
+    pthread_cond_t cond;
+    pthread_mutex_t lock;
+} Zem_t;
+
+// 只有一个线程能调用 Zem_init
+void Zem_init(Zem_t *s, int value) 
+{
+    s->value = value;
+    Cond_init(&s->cond);
+    Mutex_init(&s->lock);
+}
+
+// 实现 wait
+void Zem_wait(Zem_t *s) 
+{
+    Mutex_lock(&s->lock);
+    while (s->value <= 0)
+        Cond_wait(&s->cond, &s->lock);
+    s->value--;
+    Mutex_unlock(&s->lock);
+}
+
+// 实现 post
+void Zem_post(Zem_t *s) 
+{
+    Mutex_lock(&s->lock);
+    s->value++;
+    Cond_signal(&s->cond);
+    Mutex_unlock(&s->lock);
+}
+```
