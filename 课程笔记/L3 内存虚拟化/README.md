@@ -22,22 +22,29 @@
 * 使用基址（base）寄存器和界限（bound）寄存器。
     * 基址寄存器：用来确定物理地址 `physical address = virtual address + base`
     * 界限寄存器：提供访问保护，进程访问超过这个界限或者为负数的虚拟地址时 CPU 会触发异常。
-    <img src="./picture/image2.png" style="display: block; margin: 0 auto;" width="20%" />
+    <p align="center">
+    <img width="40%" src="./picture/image2.png">
+    </p>
 
 > 我们将 CPU 的这个负责地址转换的部分统称为内存管理单元（Memory Management Unit，MMU）。
 
 * 问题：效率较低，如下图所示，重定位的进程使用了从 32KB 到 48KB 的物理内存，但由于该进程的栈区和堆区并不很大，导致了大量的内部碎片。
 > 内部碎片：在已经分配的内存单元内部有未使用的空间。
 
-<img src="./picture/image3.png" style="display: block; margin: 0 auto;" width="20%" />
+<p align="center">
+  <img width="20%" src="./picture/image3.png">
+</p>
 
 ### 分段
 #### 分段的基本概念
 * 在 MMU 中给每个地址空间内的逻辑段一对基址和界限寄存器对，一个段只对应地址空间里的一个连续定长的区域，典型的地址空间可分为代码、栈和堆段。
 * 分段机制使得操作系统能够将不同的段放到不同的物理内存区域，从而避免了虚拟地址空间中栈与堆之间的内部碎片问题。
 
-<img src="./picture/image4.png" style="display: block; margin: 0 auto;" width="35%" />
-<img src="./picture/image5.png" style="display: block; margin: 0 auto;" width="35%" />
+<p align="center">
+  <img width="35%" src="./picture/image4.png">
+  <img width="35%" src="./picture/image5.png">
+</p>
+
 * 上图是一个例子
     * 如表中所示，代码段放在物理地址 32KB，大小为 2KB；堆在 34KB，大小也为 2KB。
     * 假设要引用代码段中的虚拟地址 100，由于 100 比 2KB 小，在界限内。因此有 `物理地址 = 100 + 32KB = 32868`。
@@ -46,7 +53,10 @@
     * 如果试图访问非法的地址则会产生段错误（segmentation fault）。
 
 * 在显式方式中，使用虚拟地址的开始几位标记不同的段，用后面的位标记段内偏移量。
-<img src="./picture/image6.png" style="display: block; margin: 0 auto;" width="30%" />
+
+<p align="center">
+  <img width="30%" src="./picture/image6.png">
+</p>
 
 * 访问方式写成代码如下所示：
     ```c
@@ -62,7 +72,10 @@
     ```
 
 * 问题：可能会导致外部碎片，如下图所示，当需要分配一个 20KB 的段时，当前 24KB 空闲的空间不连续，导致操作系统无法满足这个 20KB 的请求。
-<img src="./picture/image7.png" style="display: block; margin: 0 auto;" width="20%" />
+
+<p align="center">
+  <img width="20%" src="./picture/image7.png">
+</p>
 
 #### 空闲空间管理
 * 空闲空间管理一般采用**空闲链表**的方式，空闲链表包含一组元素，记录了堆中的哪些空间还没有分配。
@@ -71,7 +84,9 @@
     * 如下所示的 30 字节的堆，对应的空闲链表会有两个元素，分别描述起始地址为 0 以及起始地址为 20 的两块空闲区域。
     * **分割**：假如申请一个字节的内存，分配程序会执行分割，它找到一块可以满足请求的空闲空间并将其分割，第一块返回给用户，第二块留在空闲列表中（addr 为 21）。
     * **合并**：如果程序调用 `free(10)` 归还堆中的空间，则这块空闲空间会首先被加入到空闲列表中，之后空闲列表将相邻的空闲空间合并为一个较大的空闲块。
-<img src="./picture/image.png" style="display: block; margin: 0 auto;" width="40%" />
+<p align="center">
+  <img width="40%" src="./picture/image.png">
+</p>
 
 * 头块
     * `free(void *ptr)` 接口没有块大小的参数，因此它假定对于给定的指针，内存分配库可以确定要释放空间的大小，从而将它放回空闲链表。
@@ -92,7 +107,10 @@
         }
         ```
     * 得到头块后可以用 magic number 进行校验，并通过 size 的大小计算要释放的空间大小。
-    <img src="./picture/image-1.png" style="display: block; margin: 0 auto;" width="40%" />
+
+<p align="center">
+  <img width="40%" src="./picture/image-1.png">
+</p>
 
 * 空闲链表操作详解
     * 初始化建表：假设需要管理一个 4KB 的内存块，空闲链表的初始化代码如下所示，`head` 指针指向这块区域的起始地址。
@@ -111,29 +129,41 @@
         head->next = NULL;
         ```
 
-        <img src="./picture/image-2.png" style="display: block; margin: 0 auto;" width="40%" />
+
+        <p align="center">
+        <img width="40%" src="./picture/image-2.png">
+        </p>
     * 内存请求：假设有一个 100 字节的内存请求，库从原有的空闲块中分配了 108 字节（头块信息 8 字节 + 100字节），同时将列表的空闲节点缩小为 3980 字节。
-    <img src="./picture/image-3.png" style="display: block; margin: 0 auto;" width="40%" />
+    <p align="center">
+    <img width="40%" src="./picture/image-3.png">
+    </p>
 
     * 内存释放：在下面的左图中已经有 3 个被分配的内存块，假如要调用 `free(16500)` ，其中地址计算公式如下 16KB + 108 + 8 = 16500，这块内存释放后将被插入到空闲列表的头位置，如下右图所示。
-    <img src="./picture/image-4.png" style="display: block; margin: 0 auto;" width="50%" />
+    <p align="center">
+    <img width="50%" src="./picture/image-4.png">
+    </p>
 
 ### 分页
 #### 分页的基本概念
 > 分页不是将一个进程的地址空间分割成几个不同长度的逻辑段（即代码、堆、段），而是分割成固定大小的单元，每个单元称为一页，并将物理内存中的“页”称为页帧，每个页帧包含一个虚拟内存页。
 
-<img src="./picture/image-5.png" style="display: block; margin: 0 auto;" width="55%" />
+<p align="center">
+  <img width="55%" src="./picture/image-5.png">
+</p>
 
 * 在上面的例子中，需要将 64 字节的小地址空间放到 8 页的物理地址空间中，操作系统找到 4 个空闲页，将虚拟页 0 放到物理页 3，虚拟页 1 放到物理页 7，虚拟页 2 放到物理页 5，虚拟页 3 放到物理页 2。
 * **页表**：在每个进程中的一个数据结构，为地址空间的每个虚拟页面保存地址转换，从而让我们知道每个页在物理内存中的位置。在上面的示例中页表中应该有如下所示的 4 个条目 `VP0->PF3, VP1->PF7, VP2->PF5, VP3->PF2`。
 * **地址转换**：地址转换需要依靠虚拟页面号 (virtual page number, VPN) 和页内偏移量 (offset)。
     * 上面例子中的虚拟地址空间是 64 字节，因此虚拟地址总共需要 6 位，又因为页的大小为 16 字节，因此虚拟可以划分为如下所示的形式。
     * 假如要加载虚拟地址 21，21 转换为二进制是 010101，最高两位 01，查表可得 `VP1->PF7` ，页内偏移量不变，则最终的物理地址为 1110101。
-<img src="./picture/image-6.png" style="display: block; margin: 0 auto;" width="40%" />
-
+<p align="center">
+  <img width="40%" src="./picture/image-6.png">
+</p>
 * **页表项**：操作系统会通过虚拟页号 VPN 检索页表数组，在对应索引处查找页表项 PTE，最终找到期望的物理帧号 PFN，下图是 X86 的页表项。
 
-<img src="./picture/image-7.png" style="display: block; margin: 0 auto;" width="40%" />
+<p align="center">
+  <img width="40%" src="./picture/image-7.png">
+</p>
 
 * **代码执行**：
     ```c
@@ -165,7 +195,9 @@
     * ASID：用来区分进程空间（防止上下文切换后的对同一个物理内存的访问出现问题）。
     * D：dirty 位，用来表示该页是否被写入新数据。
     * V: valid 有效位，告诉硬件该项的地址映射是否有效。
-    <img src="./picture/image-8.png" style="display: block; margin: 0 auto;" width="40%" />
+    <p align="center">
+    <img width="40%" src="./picture/image-8.png">
+    </p>
 * **基本算法**
     ```c
     // 首先从虚拟地址中提取页号 VPN
@@ -203,16 +235,22 @@
             sum += a[i];
         }
         ```
-<img src="./picture/image-9.png" style="display: block; margin: 0 auto;" width="25%" />
+<p align="center">
+  <img width="25%" src="./picture/image-9.png">
+</p>
 
 #### 多级页表
-<img src="./picture/image-10.png" style="display: block; margin: 0 auto;" width="50%" />
+<p align="center">
+  <img width="50%" src="./picture/image-10.png">
+</p>
 
 * 左图是经典的线性页表，右图是一个多级页表。多级页表由多个页目录项（Page Directory Entries，PDE）组成，PDE 中至少有 valid 位以及页帧号 PFN。当 valid 位有效时，说明该项指向的页表中至少有一页是有效的。
 * 多级页表是有成本的，在 TLB 未命中时，需要从内存中加载两次，才能从页表中获取正确的地址转换信息（一次用于页目录，另一次用于 PTE 本身），而线性页表只需要一次加载。
 
 * 地址转换过程：
-<img src="./picture/image-11.png" style="display: block; margin: 0 auto;" width="40%" />
+<p align="center">
+  <img width="40%" src="./picture/image-11.png">
+</p>
 
 ```c
 // 首先从虚拟地址中提取页号 VPN
@@ -249,7 +287,9 @@ else // TLB 未命中
 ## 交换空间
 > 在硬盘上开辟一部分空间用于物理页的移入和移出，一般这样的空间成为交换空间（swap space），因为我们将内存中的页交换到其中，并在需要的时候又交换回去。
 
-<img src="./picture/image-12.png" style="display: block; margin: 0 auto;" width="40%" />
+<p align="center">
+  <img width="40%" src="./picture/image-12.png">
+</p>
 
 * 在上面的例子中，存在一个 4 页的物理内存和一个 8 页的交换空间。3 个进程（进程 0、进程 1、进程 2）主动共享物理内存，但是 3 个中的每一个都只有一部分有效页在内存中，剩下的在硬盘的交换空间中。进程 3 的所有页都被交换到硬盘上，因此它目前并未被运行。
 
@@ -314,4 +354,6 @@ $$AMAT = (P_{Hit}\times T_M) + (P_{Miss}\times T_D)$$
     * FIFO：页进入操作系统时被放入一个队列，当发生替换时，队首的页被换出。
     * 随机：在内存满时随机选择一个页进行替换。
     * **LRU （最少最近使用，Least-Recently-Used）**：换出最近没有被使用过的页面。在下面的例子中，第一次需要换页时，LRU 换出了页 2（0、1 的访问时间更近），之后换出页 0 （1、3 最近被访问过）。
-    <img src="./picture/image-13.png" style="display: block; margin: 0 auto;" width="32%" />
+    <p align="center">
+    <img width="32%" src="./picture/image-13.png">
+    </p>

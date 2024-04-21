@@ -4,7 +4,9 @@
     * 内存的虚拟化。
 ## 进程
 ### 进程的创建
-<center><img src=./picture/image1.png width=25% /></center>
+<p align="center">
+  <img width="25%" src="./picture/image1.png">
+</p>
 
 * Step1: 将代码和所有静态数据（例如初始化变量）加载（load）到内存中进程的地址空间中。
 * Step2: 为 stack 分配内存，在 C 语言中栈用来存放局部变量、函数参数和返回地址。
@@ -13,7 +15,9 @@
 
 
 ### 进程的状态
-<center><img src=./picture/image2.png width=25% /></center>
+<p align="center">
+  <img width="25%" src="./picture/image2.png">
+</p>
 
 * 进程可以处于如上图所示的三个状态之一：
     * 运行：进程正在处理器上运行。
@@ -70,12 +74,14 @@ int main(int argc, char *argv[])
 * 如何控制权交还给操作系统？ 
     * **依靠外部的时钟设备**。时钟设备编程为每隔几毫秒产生一次中断，产生中断时当前正在运行的程序停止，操作系统中预先配置的中断处理程序会运行，此时操作系统重新获得 CPU 的控制权。
 
-### 保存和恢复上下文（上下文切换）
+### 上下文切换
 * 保存当前正在运行的进程的上下文：保存通用寄存器、程序计数器以及当前正在运行的进程的内核栈指针。
 * 恢复下一个要运行进程的上下文：恢复寄存器、程序计数器并切换内核栈。
 
 通过切换栈，内核在进入切换代码调用时是一个进程（被中断的进程）的上下文，在返回时是另一进程（即将执行的进程）的上下文。当操作系统最终执行从陷阱返回指令时，即将执行的进程变成了当前运行的进程。
-<center><img src=./picture/image3.png width=30% /></center>
+<p align="center">
+  <img width="40%" src="./picture/image3.png">
+</p>
 
 ```asm
 # void swtch(struct context *old, struct context *new);
@@ -116,7 +122,9 @@ $$ T_{周转时间} = T_{完成时间} - T_{到达时间} $$
 $$ T_{响应时间} = T_{首次运行} - T_{到达时间} $$
 ### 多级反馈队列 (Multi-level Feedback Queue, MLFQ)
 * MLFQ 中有许多独立的队列，每个队列有不同的优先级，在某一个时刻观测，此时一个工作只能存在于一个队列中。
-<center><img src=./picture/image4.png width=25% /></center>
+<p align="center">
+  <img width="25%" src="./picture/image4.png">
+</p>
 
 * 调度规则：
     * 如果 A 的优先级 > B 的优先级，运行 A （不运行 B）。
@@ -126,18 +134,24 @@ $$ T_{响应时间} = T_{首次运行} - T_{到达时间} $$
     * 经过一段时间 S, 就将系统中所有工作重新加入最高优先级队列。
 * 下面是对调度规则的解释：
 
-<center><img src=./picture/image5.png width=40% /></center>
+<p align="center">
+  <img width="40%" src="./picture/image5.png">
+</p>
 
 * 单个长工作：如上左图所示，该工作首先进入最高优先级队列，之后每执行一个时间片就调低一级优先级直到进入最低优先级。
 * 来了一个短工作：如上中图所示，到来的短工作被加入到最高优先级队列，并且在两个时间片内执行完成，之后继续运行优先级最低的长工作。
 * 包含 I/O：如上右图所示，例如交互工作中的 I/O （等待用户输入输出），由于这种任务总是在时间片结束之前执行完成，因此优先级一直保持最高。
 
-<center><img src=./picture/image6.png width=40% /></center>
+<p align="center">
+  <img width="40%" src="./picture/image6.png">
+</p>
 
 * 考虑饥饿：左边没有优先级提升的过程，这会导致长任务被 “饿死”，右边有优先级提升的过程，可以保证每隔一段时间长任务就会被执行一次。
 
 ## 多处理器调度
-<center><img src=./picture/image7.png width=40% /></center>
+<p align="center">
+  <img width="30%" src="./picture/image7.png">
+</p>
 
 ### 新的问题
 * 多处理器带来的新问题：核心在于对硬件缓存（cache）的使用以及多处理器之间共享数据的方式。
@@ -152,6 +166,10 @@ $$ T_{响应时间} = T_{首次运行} - T_{到达时间} $$
 * 单队列调度：将所有需要调度的工作放入一个单独的队列中。
     * 需要从同一个队列中读入任务，因此存在同步的问题。
     * 任务在不同 CPU 上切换，因此存在缓存亲和度的问题。
-<center><img src=./picture/image8.png width=30% /></center>
+<p align="center">
+  <img width="30%" src="./picture/image8.png">
+</p>
 * 多队列调度：每个 CPU 一个队列。下面的这张图实现了迁移（用来实现负载均衡），队列 Q0 中只有一个任务，而 Q1 中有两个，这样 Q0 中的 A 可能占用的 CPU 时间比较长，因此考虑将 B 迁移到 Q0 中去。
-<center><img src=./picture/image9.png width=40% /></center>
+<p align="center">
+  <img width="40%" src="./picture/image9.png">
+</p>
