@@ -3,8 +3,6 @@
     * CPU 的虚拟化（进程）。
     * 内存的虚拟化。
 
-[TOC]
-
 ## 地址空间
 * 地址空间：对物理内存的抽象。
 <p align="center">
@@ -355,6 +353,6 @@ $$AMAT = (P_{Hit}\times T_M) + (P_{Miss}\times T_D)$$
     * 随机：在内存满时随机选择一个页进行替换。
     * **LRU （最少最近使用，Least-Recently-Used）**：换出最近没有被使用过的页面。在下面的例子中，第一次需要换页时，LRU 换出了页 2（0、1 的访问时间更近），之后换出页 0 （1、3 最近被访问过）。
     
-    <p align="center">
-    <img width="30%" src="./picture/image-13.png">
-    </p>
+ <p align="center">
+ <img width="30%" src="./picture/image-13.png">
+ </p>
