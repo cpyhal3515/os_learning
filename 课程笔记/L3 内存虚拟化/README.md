@@ -7,8 +7,9 @@
 
 ## 地址空间
 * 地址空间：对物理内存的抽象。
-
-<img src="./picture/image1.png" style="display: block; margin: 0 auto;" width="20%" />
+<p align="center">
+  <img width="20%" src="./picture/image1.png">
+</p>
 
 * 一个进程的地址空间包含运行程序的所有内存状态
     * 程序的代码。
